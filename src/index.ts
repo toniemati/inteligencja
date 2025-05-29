@@ -1,8 +1,8 @@
-import Car from './Car'
-import { distance, findBestCarForPoint, findBestWarehouseForCar, randomIntBetween } from './helpers'
-import Point from './Point'
-import Position from './Position'
-import Warehouse from './Warehouse'
+import Car from './Car.js'
+import { distance, draw, findBestCarForPoint, findBestWarehouseForCar, randomIntBetween } from './helpers.js'
+import Point from './Point.js'
+import Position from './Position.js'
+import Warehouse from './Warehouse.js'
 
 const NUM_OF_WAREHOUSES = 5
 
@@ -59,6 +59,10 @@ for (let i = 0; i < NUM_OF_CARS; i++) {
 
 let totalPickup = 0
 let totalDelivery = 0
+
+const board = document.querySelector('#board')
+
+draw(board, WAREHOUSES, POINTS, CARS)
 
 POINTS.forEach(point => {
     const car = findBestCarForPoint(point, CARS)

@@ -52,3 +52,39 @@ export const findBestWarehouseForCar = (car: Car, warehouses: Warehouse[]): Ware
 
     return bestWarehouse
 }
+
+export const draw = (board: Element | null, warehouses: Warehouse[], points: Point[], cars: Car[]) => {
+    warehouses.forEach(warehouse => {
+        const div = document.createElement('div')
+
+        div.setAttribute('id', `warehouse_${warehouse.id}`)
+        div.classList.add('block', 'warehouse')
+        div.style.left = warehouse.position.x + '%'
+        div.style.top = warehouse.position.y + '%'
+
+        board?.appendChild(div)
+    })
+
+    points.forEach(point => {
+        const div = document.createElement('div')
+
+        div.setAttribute('id', `point_${point.id}`)
+        div.classList.add('block', 'point')
+        div.style.left = point.position.x + '%'
+        div.style.top = point.position.y + '%'
+
+        board?.appendChild(div)
+    })
+
+
+    cars.forEach(car => {
+        const div = document.createElement('div')
+
+        div.setAttribute('id', `car_${car.id}`)
+        div.classList.add('block', 'car')
+        div.style.left = car.position.x + '%'
+        div.style.top = car.position.y + '%'
+
+        board?.appendChild(div)
+    })
+}
