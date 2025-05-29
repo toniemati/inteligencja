@@ -11,7 +11,7 @@ export default class Car {
         this.id = id
         this.position = position
         this.maxCapacity = maxCapacity
-        this.currentCapacity = Math.floor(maxCapacity / 4)
+        this.currentCapacity = Math.floor(maxCapacity / 2)
         this.distance = 0
     }
 }
