@@ -64,49 +64,67 @@ const board = document.querySelector('#board')
 
 draw(board, WAREHOUSES, POINTS, CARS)
 
-POINTS.forEach(point => {
-    const car = findBestCarForPoint(point, CARS)
-    const carDistance = distance(point.position, car.position)
+const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
 
-    console.log(`Car ${car.id} (${car.position.x},${car.position.y}) - ${car.currentCapacity}/${car.maxCapacity}kg`)
-    console.log(`Drives to (${point.position.x},${point.position.y}) - ${carDistance}km`)
+const process = async () => {
+    for (const point of POINTS) {
+        const car = findBestCarForPoint(point, CARS)
+        const carDistance = distance(point.position, car.position)
 
-    car.position = point.position
-    car.distance += carDistance
+        let pointElement = document.querySelector(`#point_${point.id}`) as HTMLDivElement
+        let carElement = document.querySelector(`#car_${car.id}`) as HTMLDivElement
 
-    if (point.toPickup) {
-        car.currentCapacity += point.toPickup
-        totalPickup += point.toPickup
-        console.log(`Pick ${point.toPickup}kg - ${car.currentCapacity}/${car.maxCapacity}kg`)
-        point.toPickup = 0
+        console.log(`Car ${car.id} (${car.position.x},${car.position.y}) - ${car.currentCapacity}/${car.maxCapacity}kg`)
+        console.log(`Drives to (${point.position.x},${point.position.y}) - ${carDistance}km`)
+
+        car.position = point.position
+        car.distance += carDistance
+
+        carElement.style.left = car.position.x + '%'
+        carElement.style.top = car.position.y + '%'
+        board?.removeChild(pointElement)
+
+        if (point.toPickup) {
+            car.currentCapacity += point.toPickup
+            totalPickup += point.toPickup
+            console.log(`Pick ${point.toPickup}kg - ${car.currentCapacity}/${car.maxCapacity}kg`)
+            point.toPickup = 0
+        }
+
+        if (point.toDelivery) {
+            car.currentCapacity -= point.toDelivery
+            totalDelivery += point.toDelivery
+            console.log(`Leave ${point.toDelivery}kg - ${car.currentCapacity}/${car.maxCapacity}kg`)
+            point.toDelivery = 0
+        }
+
+        if (car.currentCapacity < 200) {
+            console.log(`Low capacity`)
+
+            const warehouse = findBestWarehouseForCar(car, WAREHOUSES)
+            const warehouseDistance = distance(car.position, warehouse.position)
+            const pickUp = Math.floor(car.maxCapacity / 2)
+
+            car.position = warehouse.position
+            car.distance += warehouseDistance
+            car.currentCapacity += pickUp
+
+            carElement.style.left = car.position.x + '%'
+            carElement.style.top = car.position.y + '%'
+
+            console.log(`Back to warehouse (${warehouse.position.x},${warehouse.position.y}) - ${warehouseDistance}km`)
+            console.log(`Refill ${pickUp}kg - ${car.currentCapacity}/${car.maxCapacity}kg`)
+        }
+
+        console.log('')
+        await delay(1000) // odczekaj 1s przed następnym
     }
 
-    if (point.toDelivery) {
-        car.currentCapacity -= point.toDelivery
-        totalDelivery += point.toDelivery
-        console.log(`Leave ${point.toDelivery}kg - ${car.currentCapacity}/${car.maxCapacity}kg`)
-        point.toDelivery = 0
-    }
 
-    if (car.currentCapacity < 200) {
-        console.log(`Low capacity`)
+    const totalDistance = CARS.reduce((prev, curr) => prev + curr.distance, 0)
 
-        const warehouse = findBestWarehouseForCar(car, WAREHOUSES)
-        const warehouseDistance = distance(car.position, warehouse.position)
-        const pickUp = Math.floor(car.maxCapacity / 2)
+    await console.log({ NUM_OF_WAREHOUSES, NUM_OF_POINTS, NUM_OF_CARS })
+    await console.log({ totalDistance, totalPickup, totalDelivery })
+}
 
-        car.position = warehouse.position
-        car.distance += warehouseDistance
-        car.currentCapacity += pickUp
-
-        console.log(`Back to warehouse (${warehouse.position.x},${warehouse.position.y}) - ${warehouseDistance}km`)
-        console.log(`Refill ${pickUp}kg - ${car.currentCapacity}/${car.maxCapacity}kg`)
-    }
-
-    console.log('')
-})
-
-const totalDistance = CARS.reduce((prev, curr) => prev + curr.distance, 0)
-
-console.log({ NUM_OF_WAREHOUSES, NUM_OF_POINTS, NUM_OF_CARS })
-console.log({ totalDistance, totalPickup, totalDelivery })
+process()
