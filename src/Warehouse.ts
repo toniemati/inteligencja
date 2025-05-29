@@ -1,13 +1,11 @@
-export default class Warehouse {
-    x: number
-    y: number
-    toDelivery: number
-    toPickup: number
+import Position from './Position'
 
-    constructor(x: number, y: number, toDelivery: number, toPickup: number) {
-        this.x = x
-        this.y = y
-        this.toDelivery = toDelivery
-        this.toPickup = toPickup
+export default class Warehouse {
+    public id: number
+    public position: Position
+
+    constructor(id: number, position: Position) {
+        this.id = id
+        this.position = position
     }
 }

@@ -1,13 +1,17 @@
-import Point from './Warehouse'
+import Position from './Position'
 
 export default class Car {
-    currentWarehouse: Point
-    maxCapacity: number
-    currentCapacity: number
+    public id: number
+    public position: Position
+    public maxCapacity: number
+    public currentCapacity: number
+    public distance: number
 
-    constructor(currentWarehouse: Point, maxCapacity: number) {
-        this.currentWarehouse = currentWarehouse
+    constructor(id: number, position: Position, maxCapacity: number) {
+        this.id = id
+        this.position = position
         this.maxCapacity = maxCapacity
-        this.currentCapacity = 0
+        this.currentCapacity = Math.floor(maxCapacity / 4)
+        this.distance = 0
     }
 }
