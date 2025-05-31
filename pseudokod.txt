@@ -1,0 +1,35 @@
+1. Rozpocznij program.
+
+2. Wyznacz:
+    a. liczbę magazynów - 5,
+    b. minimalną pojemność punktu - 100,
+    c. maksymalną pojemność punktu - 200,
+    d. liczbę punktów - od 25 do 50,
+    e. liczbę samochodów - od 3 do 6,
+
+3. Ustaw pozycję magazynów (x, y) od 0 do 100.
+
+4. Ustaw pozycję punktów (x, y) od 0 do 100 oraz oznaczy czy przyjmuję czy wydaję towar i ile.
+
+5. Ustaw pozycję samochodów (x, y) od 0 do 100 oraz wybierz typ samochodu (różna pojemność).
+
+6. Zapełnij do połowy pojemność każdego samochodu.
+
+7. Narysuj pozycję magazynów, punktów i samochodów.
+
+8. Dla każdego punktu:
+    a. znajdź najbliższy samochód (po dystancie), który może odebrać/dostarczyć od/do niego towar,
+    b. zmień pozycję samochodu,
+    c. oblicz pokonany przez samochód dystans,
+    d. dodaj/odejmij towar z punktu do samochodu,
+    e. oznacz punkt jako 'gotowy',
+    f. sprawdź czy samochoód ma niską pojemność (< 200kg):
+        tak:
+            - wróć do najbliższego magazynu,
+            - zmień pozycję samochodu,
+            - dodaj pokonany dystans do samochodu,
+            - uzupełnij połowę pojemności samochodu
+        nie:
+            - wykonaj pętle dla następnego punktu
+
+

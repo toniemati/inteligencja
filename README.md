@@ -1,16 +1,16 @@
 # Projekt - inteligencja obliczeniowa
 
-1. install dependencies:
+1. Install dependencies:
 ```
 npm install
 ```
 
-2. build project
+2. Build project
 ```
 npm run build
 ```
 
-3. start project:
+3. Start project:
 ```
 npm run start
 ```
